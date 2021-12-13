@@ -1,13 +1,7 @@
-use rusqlite::{Connection, Result};
+mod db;
+use crate::db::Photo;
 
-fn main() -> Result<()> {
-    let conn = Connection::open("/Users/dremax/portfolio/sqlite/example.db")?;
-
-    conn.execute(
-        "create table if not exists photos (
-                id integer primary key,
-                path text not null
-        )", [])?;
-    
-    Ok(())
+fn main() {
+    let photo = Photo::new("C:/temp/1.png".to_string());
+    photo.insert().unwrap();
 }
