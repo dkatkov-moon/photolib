@@ -1,30 +1,42 @@
 package com.photolib.app.photolibapp.controller;
 
-import com.photolib.app.photolibapp.entity.PhotoFile;
+import com.photolib.app.photolibapp.assembler.PhotoFileModelAssembler;
+import com.photolib.app.photolibapp.exception.PhotoFileNotFoundException;
+import com.photolib.app.photolibapp.model.PhotoFile;
 import com.photolib.app.photolibapp.repository.PhotoFileRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @AllArgsConstructor
 public class PhotoFileController {
 
     private final PhotoFileRepository photoFileRepository;
+    private final PhotoFileModelAssembler photoFileModelAssembler;
 
     @GetMapping("/photo-files")
-    List<PhotoFile> all() {
-        return photoFileRepository.findAll();
+    public CollectionModel<EntityModel<PhotoFile>> all() {
+        List<EntityModel<PhotoFile>> photos = photoFileRepository.findAll().stream().map(photoFileModelAssembler::toModel).collect(Collectors.toList());
+        return CollectionModel.of(photos, linkTo(methodOn(PhotoFileController.class).all()).withSelfRel());
     }
 
     @GetMapping("/photo-file/{id}")
-    PhotoFile one(@PathVariable Long id) {
-        return photoFileRepository.findById(id).orElseThrow(() -> new IllegalStateException("Photo file with id '" + id + "' not found"));
+    public EntityModel<PhotoFile> one(@PathVariable Long id) {
+        return photoFileRepository.findById(id)
+                .map(photoFileModelAssembler::toModel)
+                .orElseThrow(() -> new PhotoFileNotFoundException(id));
     }
 
     @PutMapping("/photo-file/{id}")
-    PhotoFile updateOrNew(@RequestBody PhotoFile newPhotoFile, @PathVariable Long id) {
+    EntityModel<PhotoFile> updateOrNew(@RequestBody PhotoFile newPhotoFile, @PathVariable Long id) {
         PhotoFile photoFile = photoFileRepository.findById(id)
                 .map(photo -> {
                     photo.setFilename(newPhotoFile.getFilename());
@@ -34,7 +46,8 @@ public class PhotoFileController {
                     newPhotoFile.setId(id);
                     return newPhotoFile;
                 });
-        return photoFileRepository.save(photoFile);
+        photoFile = photoFileRepository.save(photoFile);
+        return photoFileModelAssembler.toModel(photoFile);
     }
 
     @DeleteMapping("/photo-file/{id}")

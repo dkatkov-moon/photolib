@@ -1,6 +1,6 @@
 package com.photolib.app.photolibapp.config;
 
-import com.photolib.app.photolibapp.entity.PhotoFile;
+import com.photolib.app.photolibapp.model.PhotoFile;
 import com.photolib.app.photolibapp.repository.PhotoFileRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

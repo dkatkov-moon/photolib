@@ -1,4 +1,4 @@
-package com.photolib.app.photolibapp.entity;
+package com.photolib.app.photolibapp.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

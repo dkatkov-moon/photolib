@@ -23,7 +23,7 @@ public class DbConfig {
     public DataSource dataSource() {
         final SingleConnectionDataSource dataSource = new SingleConnectionDataSource();
         dataSource.setSuppressClose(true);
-        dataSource.setDriverClassName(environment.getProperty("driverClassName"));
+        dataSource.setDriverClassName(environment.getProperty("driverClassName", "org.sqlite.JDBC"));
         dataSource.setUrl(environment.getProperty("url"));
         dataSource.setUsername(environment.getProperty("username"));
         dataSource.setPassword(environment.getProperty("password"));
@@ -34,7 +34,7 @@ public class DbConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         final LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
-        em.setPackagesToScan(new String[] { "com.photolib.app.photolibapp.entity" });
+        em.setPackagesToScan("com.photolib.app.photolibapp.model");
         em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         em.setJpaProperties(additionalProperties());
         return em;
