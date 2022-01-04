@@ -1,4 +1,4 @@
-package com.photolib.app.photolibapp.configuration;
+package com.photolib.app.photolibapp.config;
 
 import com.photolib.app.photolibapp.entity.PhotoFile;
 import com.photolib.app.photolibapp.repository.PhotoFileRepository;
