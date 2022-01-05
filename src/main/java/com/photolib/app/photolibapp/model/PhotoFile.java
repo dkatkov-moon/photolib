@@ -3,10 +3,7 @@ package com.photolib.app.photolibapp.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @NoArgsConstructor
@@ -19,6 +16,8 @@ public class PhotoFile {
 
     private String absolutePath;
     private String filename;
+
+    public boolean isActive;
 
     public PhotoFile(String absolutePath, String filename) {
         this.absolutePath = absolutePath;
