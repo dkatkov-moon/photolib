@@ -24,7 +24,7 @@ public class PhotoServiceImpl implements PhotoService {
     @Override
     public List<Photo> findPhotos(Location location) {
         List<Photo> photos = photoSearch.listPhotos(location.getPath()).stream()
-                .map(path -> new Photo(path.toString(), FilenameUtils.getName(path.toString())))
+                .map(path -> new Photo(path.toString(), FilenameUtils.getName(path.toString()), location))
                 .collect(Collectors.toList());
         return photoRepository.saveAll(photos);
     }
