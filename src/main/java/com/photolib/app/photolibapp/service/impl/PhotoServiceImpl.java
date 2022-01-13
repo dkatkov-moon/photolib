@@ -22,6 +22,27 @@ public class PhotoServiceImpl implements PhotoService {
     private PhotoSearch photoSearch;
 
     @Override
+    public Photo create(Photo photo) {
+        return photoRepository.save(photo);
+    }
+
+    @Override
+    public Photo getById(Long id) {
+        return photoRepository.getById(id);
+    }
+
+    @Override
+    public List<Photo> getAllActive() {
+        return photoRepository.getAllActive();
+    }
+
+    @Override
+    public Long delete(Long id) {
+        photoRepository.deleteById(id);
+        return id;
+    }
+
+    @Override
     public List<Photo> scanPhotos(Location location) {
         List<Photo> photos = photoSearch.listPhotos(location.getPath()).stream()
                 .map(path -> new Photo(path.toString(), FilenameUtils.getName(path.toString()), location))

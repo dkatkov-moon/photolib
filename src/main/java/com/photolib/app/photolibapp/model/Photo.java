@@ -2,6 +2,7 @@ package com.photolib.app.photolibapp.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.io.FilenameUtils;
 
 import javax.persistence.*;
 

@@ -1,57 +1,31 @@
 package com.photolib.app.photolibapp.controller;
 
-import com.photolib.app.photolibapp.assembler.PhotoModelAssembler;
-import com.photolib.app.photolibapp.exception.PhotoFileNotFoundException;
 import com.photolib.app.photolibapp.model.Photo;
-import com.photolib.app.photolibapp.repository.PhotoRepository;
-import lombok.AllArgsConstructor;
-import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.EntityModel;
+import com.photolib.app.photolibapp.service.PhotoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
-@RestController
-@AllArgsConstructor
+@Controller
+@RequestMapping("/api/v1/photo")
 public class PhotoController {
 
-    private final PhotoRepository photoRepository;
-    private final PhotoModelAssembler photoModelAssembler;
+    @Autowired
+    private PhotoService photoService;
 
-    @GetMapping("/photos")
-    public CollectionModel<EntityModel<Photo>> all() {
-        List<EntityModel<Photo>> photos = photoRepository.findAll().stream().map(photoModelAssembler::toModel).collect(Collectors.toList());
-        return CollectionModel.of(photos, linkTo(methodOn(PhotoController.class).all()).withSelfRel());
+    @GetMapping("/{id}")
+    ResponseEntity<Photo> getById(@PathVariable(name = "id") Long id) {
+        return ResponseEntity.ok().body(photoService.getById(id));
     }
 
-    @GetMapping("/photo/{id}")
-    public EntityModel<Photo> one(@PathVariable Long id) {
-        return photoRepository.findById(id)
-                .map(photoModelAssembler::toModel)
-                .orElseThrow(() -> new PhotoFileNotFoundException(id));
+    @PostMapping
+    ResponseEntity<Photo> create(@RequestBody Photo photo) {
+        return ResponseEntity.ok().body(photoService.create(photo));
     }
 
-    @PutMapping("/photo/{id}")
-    EntityModel<Photo> updateOrNew(@RequestBody Photo newPhoto, @PathVariable Long id) {
-        Photo photo = photoRepository.findById(id)
-                .map(ph -> {
-                    ph.setFilename(newPhoto.getFilename());
-                    ph.setAbsolutePath(newPhoto.getAbsolutePath());
-                    return ph;
-                }).orElseGet(() -> {
-                    newPhoto.setId(id);
-                    return newPhoto;
-                });
-        photo = photoRepository.save(photo);
-        return photoModelAssembler.toModel(photo);
-    }
-
-    @DeleteMapping("/photo/{id}")
-    void deletePhotoFile(@PathVariable Long id) {
-        photoRepository.deleteById(id);
+    @DeleteMapping("/{id}")
+    ResponseEntity<Long> delete(@PathVariable(name = "id") Long id) {
+        return ResponseEntity.ok().body(photoService.delete(id));
     }
 }
