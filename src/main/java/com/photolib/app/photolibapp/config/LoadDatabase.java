@@ -1,9 +1,9 @@
 package com.photolib.app.photolibapp.config;
 
-import com.photolib.app.photolibapp.model.PhotoFile;
-import com.photolib.app.photolibapp.model.PhotoLocation;
-import com.photolib.app.photolibapp.repository.PhotoFileRepository;
-import com.photolib.app.photolibapp.repository.PhotoLocationRepository;
+import com.photolib.app.photolibapp.model.Location;
+import com.photolib.app.photolibapp.model.Photo;
+import com.photolib.app.photolibapp.repository.PhotoRepository;
+import com.photolib.app.photolibapp.repository.LocationRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -13,17 +13,17 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 public class LoadDatabase {
     @Bean
-    CommandLineRunner initPhotoFiles(PhotoFileRepository photoFileRepository) {
+    CommandLineRunner initPhotoFiles(PhotoRepository photoRepository) {
         return args -> {
-            log.info("Preloading file {}", photoFileRepository.save(new PhotoFile("c:/temp/1.png", "1.png")));
-            log.info("Preloading file {}", photoFileRepository.save(new PhotoFile("c:/temp/2.png", "2.png")));
+            log.info("Preloading file {}", photoRepository.save(new Photo("c:/temp/1.png", "1.png")));
+            log.info("Preloading file {}", photoRepository.save(new Photo("c:/temp/2.png", "2.png")));
         };
     }
 
     @Bean
-    CommandLineRunner initPhotoLocations(PhotoLocationRepository photoLocationRepository) {
+    CommandLineRunner initPhotoLocations(LocationRepository locationRepository) {
         return args -> {
-            log.info("Preloading location {}", photoLocationRepository.save(new PhotoLocation("c:/temp/")));
+            log.info("Preloading location {}", locationRepository.save(new Location("c:/temp/")));
         };
     }
 }

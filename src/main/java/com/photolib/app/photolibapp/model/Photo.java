@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @Entity
-public class PhotoFile {
+public class Photo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -17,9 +17,12 @@ public class PhotoFile {
     private String absolutePath;
     private String filename;
 
+    @OneToOne
+    private Location location;
+
     public boolean isActive;
 
-    public PhotoFile(String absolutePath, String filename) {
+    public Photo(String absolutePath, String filename) {
         this.absolutePath = absolutePath;
         this.filename = filename;
     }

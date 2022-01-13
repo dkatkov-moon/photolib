@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @Entity
-public class PhotoLocation {
+public class Location {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,11 +18,11 @@ public class PhotoLocation {
     private int locationType;
     private boolean isActive;
 
-    public PhotoLocation(String path) {
+    public Location(String path) {
         this.path = path;
     }
 
-    public PhotoLocation(String path, int locationType) {
+    public Location(String path, int locationType) {
         this.path = path;
         this.locationType = locationType;
     }
