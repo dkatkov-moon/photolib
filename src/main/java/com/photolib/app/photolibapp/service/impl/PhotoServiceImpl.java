@@ -22,7 +22,7 @@ public class PhotoServiceImpl implements PhotoService {
     private PhotoSearch photoSearch;
 
     @Override
-    public List<Photo> findPhotos(Location location) {
+    public List<Photo> scanPhotos(Location location) {
         List<Photo> photos = photoSearch.listPhotos(location.getPath()).stream()
                 .map(path -> new Photo(path.toString(), FilenameUtils.getName(path.toString()), location))
                 .collect(Collectors.toList());

@@ -29,7 +29,7 @@ public class Photo {
     @OneToOne
     private Location location;
 
-    private boolean isActive = true;
+    private int status = 1;
 
     public Photo(String absolutePath, String filename) {
         this.absolutePath = absolutePath;

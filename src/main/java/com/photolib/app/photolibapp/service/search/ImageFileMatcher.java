@@ -24,12 +24,12 @@ public class ImageFileMatcher {
 
     public boolean isImage() {
         if (Files.isDirectory(path) || basicFileAttributes.isSymbolicLink()) {
-            log.info("Image file {} is directory or symbolic link", path);
+            log.debug("Image file {} is directory or symbolic link", path);
             return false;
         }
 
         if (basicFileAttributes.size() == 0) {
-            log.info("Image file {} is empty", path);
+            log.debug("Image file {} is empty", path);
             return false;
         }
         return Arrays.asList(IMAGE_EXTENSIONS).contains(extension);

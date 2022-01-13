@@ -6,5 +6,5 @@ import com.photolib.app.photolibapp.model.Location;
 import java.util.List;
 
 public interface PhotoService {
-    List<Photo> findPhotos(Location location);
+    List<Photo> scanPhotos(Location location);
 }

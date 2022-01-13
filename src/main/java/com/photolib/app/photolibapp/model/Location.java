@@ -26,7 +26,7 @@ public class Location {
 
     private int locationType;
 
-    private boolean isActive = true;
+    private int status = 1;
 
     public Location(String path) {
         this.path = path;
