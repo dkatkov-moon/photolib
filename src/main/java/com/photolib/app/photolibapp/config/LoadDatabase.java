@@ -15,7 +15,7 @@ public class LoadDatabase {
     @Bean
     CommandLineRunner initPhotoFiles(PhotoRepository photoRepository) {
         return args -> {
-            log.info("Preloading file {}", photoRepository.save(new Photo("c:/temp/1.png", "1.png")));
+            log.info("Preloading file {}", photoRepository.save(new Photo("c:/temp/IMG_9000.JPG", "IMG_9000.JPG")));
             log.info("Preloading file {}", photoRepository.save(new Photo("c:/temp/2.png", "2.png")));
         };
     }

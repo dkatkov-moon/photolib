@@ -1,4 +1,4 @@
-package com.photolib.app.photolibapp.controller;
+package com.photolib.app.photolibapp.controller.v1;
 
 import com.photolib.app.photolibapp.model.Photo;
 import com.photolib.app.photolibapp.service.PhotoService;
@@ -15,7 +15,7 @@ public class PhotoController {
     private PhotoService photoService;
 
     @GetMapping("/{id}")
-    ResponseEntity<Photo> getById(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<Photo> getById(@PathVariable(name = "id") Long id) {
         return ResponseEntity.ok().body(photoService.getById(id));
     }
 

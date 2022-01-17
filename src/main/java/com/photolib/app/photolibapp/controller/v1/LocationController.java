@@ -1,4 +1,4 @@
-package com.photolib.app.photolibapp.controller;
+package com.photolib.app.photolibapp.controller.v1;
 
 import com.photolib.app.photolibapp.model.Location;
 import com.photolib.app.photolibapp.service.LocationService;
@@ -25,9 +25,9 @@ public class LocationController {
 
     @PostMapping
     ResponseEntity<Location> create(@RequestBody Location location) {
-        locationService.create(location);
-        photoService.scanPhotos(location);
-        return ResponseEntity.ok().body(location);
+        Location newLocation = locationService.create(location);
+        photoService.scanPhotos(newLocation);
+        return ResponseEntity.ok().body(newLocation);
     }
 
     @DeleteMapping("/{id}")

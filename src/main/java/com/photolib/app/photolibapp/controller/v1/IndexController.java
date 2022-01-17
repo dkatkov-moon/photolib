@@ -1,10 +1,13 @@
-package com.photolib.app.photolibapp.controller;
+package com.photolib.app.photolibapp.controller.v1;
 
+import com.photolib.app.photolibapp.assembler.PhotoRepresentationModelAssembler;
 import com.photolib.app.photolibapp.model.Location;
 import com.photolib.app.photolibapp.model.Photo;
 import com.photolib.app.photolibapp.service.LocationService;
 import com.photolib.app.photolibapp.service.PhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,12 +17,15 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/api/v1")
-public class OverviewController {
+public class IndexController {
     @Autowired
     private LocationService locationService;
 
     @Autowired
     private PhotoService photoService;
+
+    @Autowired
+    private PhotoRepresentationModelAssembler photoRepresentationModelAssembler;
 
     @GetMapping("/locations")
     ResponseEntity<List<Location>> getLocations() {
@@ -27,7 +33,7 @@ public class OverviewController {
     }
 
     @GetMapping("/photos")
-    ResponseEntity<List<Photo>> getPhotos() {
-        return ResponseEntity.ok().body(photoService.getAllActive());
+    public ResponseEntity<CollectionModel<EntityModel<Photo>>> getPhotos() {
+        return ResponseEntity.ok().body(photoRepresentationModelAssembler.toCollectionModel(photoService.getAllActive()));
     }
 }
